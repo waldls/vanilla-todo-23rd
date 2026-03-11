@@ -1,9 +1,11 @@
+// 상태
 const today = new Date()
 let currentYear = today.getFullYear()
 let currentMonth = today.getMonth()
 let selectedDate = new Date(today)
 let store = loadStoreFromStorage()
 
+// 유틸
 const dateToKey = (date) => {
   const y = date.getFullYear()
   const m = String(date.getMonth() + 1).padStart(2, '0')
@@ -21,6 +23,7 @@ const isSameDate = (a, b) =>
 
 const getTodosByDate = (date) => store[dateToKey(date)] ?? []
 
+// 스토리지
 function loadStoreFromStorage() {
   try {
     const raw = localStorage.getItem('todo-store')
@@ -34,6 +37,7 @@ const saveStoreToStorage = () => {
   localStorage.setItem('todo-store', JSON.stringify(store))
 }
 
+// 렌더링
 const renderMonthStatsSection = () => {
   const statsEl = document.getElementById('statsText')
   const fillEl = document.getElementById('progressBarFill')
@@ -152,6 +156,7 @@ const renderTodoListSection = () => {
   })
 }
 
+// CRUD
 const addTodoItem = (text) => {
   const key = dateToKey(selectedDate)
   if (!store[key]) store[key] = []
@@ -182,6 +187,7 @@ const deleteTodoItem = (id) => {
   renderCalendarGrid()
 }
 
+// 이벤트
 const handleTodoAdd = () => {
   const input = document.getElementById('todoInput')
   const text = input.value.trim()
@@ -217,6 +223,7 @@ const bindUIEvents = () => {
   })
 }
 
+// 초기화
 document.addEventListener('DOMContentLoaded', () => {
   bindUIEvents()
   renderCalendarGrid()
