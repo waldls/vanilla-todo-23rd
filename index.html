@@ -1,12 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VanillaTodo</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vanilla Todo</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header id="appHeader">
+        <h1>Vanilla Todo</h1>
+      </header>
+      <main id="appMain">
+        <section id="calendarSection">
+          <div id="calendar">
+            <div id="calendarHeader">
+              <button id="prevMonthBtn" aria-label="이전 달">&#9664;</button>
+              <span id="calendarTitle"></span>
+              <button id="nextMonthBtn" aria-label="다음 달">&#9654;</button>
+            </div>
+            <div id="calendarWeekdays">
+              <span>일</span>
+              <span>월</span>
+              <span>화</span>
+              <span>수</span>
+              <span>목</span>
+              <span>금</span>
+              <span>토</span>
+            </div>
+            <div id="calendarDays"></div>
+          </div>
+        </section>
+        <section id="todoSection">
+          <h2 id="selectedDateTitle"></h2>
+          <div id="todoListWrapper">
+            <ul id="todoList"></ul>
+          </div>
+          <div id="todoInputArea">
+            <input
+              type="text"
+              id="todoInput"
+              placeholder="할일을 입력하세요."
+              autocomplete="off"
+            />
+            <button id="todoAddBtn">추가</button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
 </html>
