@@ -30,6 +30,22 @@
             </div>
             <div id="calendarDays" role="grid"></div>
           </div>
+          <aside id="todayStats" role="region" aria-label="오늘 통계">
+            <div id="todayStatsHeader">
+              <p id="todayStatsText" aria-live="polite"></p>
+              <span id="todayStatsPercent" aria-live="polite"></span>
+            </div>
+            <div
+              id="todayProgressBarTrack"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+              aria-label="오늘 완료율"
+            >
+              <div id="todayProgressBarFill"></div>
+            </div>
+          </aside>
           <aside id="monthStats" role="region" aria-label="이번 달 통계">
             <div id="statsHeader">
               <p id="statsText" aria-live="polite"></p>

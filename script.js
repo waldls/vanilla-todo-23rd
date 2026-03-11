@@ -38,6 +38,23 @@ const saveStoreToStorage = () => {
 }
 
 // 렌더링
+const renderTodayStatsSection = () => {
+  const textEl = document.getElementById('todayStatsText')
+  const percentEl = document.getElementById('todayStatsPercent')
+  const fillEl = document.getElementById('todayProgressBarFill')
+  const trackEl = document.getElementById('todayProgressBarTrack')
+  const todos = getTodosByDate(today)
+  const total = todos.length
+  const done = todos.filter((t) => t.done).length
+  const percent = total === 0 ? 0 : Math.round((done / total) * 100)
+
+  textEl.textContent =
+    total === 0 ? '오늘 할 일이 없어요' : `오늘 ${done} / ${total} 개 완료`
+  percentEl.textContent = total === 0 ? '' : `${percent}%`
+  fillEl.style.width = `${percent}%`
+  trackEl.setAttribute('aria-valuenow', percent)
+}
+
 const renderMonthStatsSection = () => {
   const statsEl = document.getElementById('statsText')
   const fillEl = document.getElementById('progressBarFill')
@@ -86,6 +103,7 @@ const renderCalendarGrid = () => {
     daysEl.appendChild(createCalendarDayButton(d, true))
   }
 
+  renderTodayStatsSection()
   renderMonthStatsSection()
 }
 
@@ -173,6 +191,7 @@ const toggleTodoDone = (id) => {
     todo.done = !todo.done
     saveStoreToStorage()
     renderTodoListSection()
+    renderTodayStatsSection()
     renderMonthStatsSection()
   }
 }
