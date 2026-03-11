@@ -13,13 +13,13 @@
       </header>
       <main id="appMain">
         <section id="calendarSection">
-          <div id="calendar">
+          <div id="calendar" role="region" aria-labelledby="calendarTitle">
             <div id="calendarHeader">
               <button id="prevMonthBtn" aria-label="이전 달">&#9664;</button>
               <span id="calendarTitle"></span>
               <button id="nextMonthBtn" aria-label="다음 달">&#9654;</button>
             </div>
-            <div id="calendarWeekdays">
+            <div id="calendarWeekdays" role="row">
               <span>일</span>
               <span>월</span>
               <span>화</span>
@@ -28,22 +28,29 @@
               <span>금</span>
               <span>토</span>
             </div>
-            <div id="calendarDays"></div>
+            <div id="calendarDays" role="grid"></div>
           </div>
-          <aside id="monthStats">
+          <aside id="monthStats" role="region" aria-label="이번 달 통계">
             <div id="statsHeader">
-              <p id="statsText"></p>
-              <span id="statsPercent"></span>
+              <p id="statsText" aria-live="polite"></p>
+              <span id="statsPercent" aria-live="polite"></span>
             </div>
-            <div id="progressBarTrack">
+            <div
+              id="progressBarTrack"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+              aria-label="이번 달 완료율"
+            >
               <div id="progressBarFill"></div>
             </div>
           </aside>
         </section>
-        <section id="todoSection">
+        <section id="todoSection" aria-label="할일 목록">
           <h2 id="selectedDateTitle"></h2>
           <div id="todoListWrapper">
-            <ul id="todoList"></ul>
+            <ul id="todoList" aria-live="polite" aria-label="할일 목록"></ul>
           </div>
           <div id="todoInputArea">
             <input
@@ -51,6 +58,7 @@
               id="todoInput"
               placeholder="할일을 입력하세요."
               autocomplete="off"
+              aria-label="할일 입력"
             />
             <button id="todoAddBtn">추가</button>
           </div>
