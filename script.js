@@ -34,6 +34,27 @@ const saveStoreToStorage = () => {
   localStorage.setItem('todo-store', JSON.stringify(store))
 }
 
+const renderMonthStatsSection = () => {
+  const statsEl = document.getElementById('statsText')
+  const fillEl = document.getElementById('progressBarFill')
+  const percentEl = document.getElementById('statsPercent')
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
+  let total = 0
+  let done = 0
+
+  for (let i = 1; i <= daysInMonth; i++) {
+    const todos = getTodosByDate(new Date(currentYear, currentMonth, i))
+    total += todos.length
+    done += todos.filter((t) => t.done).length
+  }
+
+  const percent = total === 0 ? 0 : Math.round((done / total) * 100)
+  statsEl.textContent =
+    total === 0 ? '이번 달 할일이 없어요' : `이번 달 ${done} / ${total} 개 완료`
+  percentEl.textContent = total === 0 ? '' : `${percent}%`
+  fillEl.style.width = `${percent}%`
+}
+
 const renderCalendarGrid = () => {
   const titleEl = document.getElementById('calendarTitle')
   const daysEl = document.getElementById('calendarDays')
@@ -60,6 +81,8 @@ const renderCalendarGrid = () => {
     const d = new Date(currentYear, currentMonth + 1, i)
     daysEl.appendChild(createCalendarDayButton(d, true))
   }
+
+  renderMonthStatsSection()
 }
 
 const createCalendarDayButton = (date, otherMonth) => {
@@ -145,6 +168,7 @@ const toggleTodoDone = (id) => {
     todo.done = !todo.done
     saveStoreToStorage()
     renderTodoListSection()
+    renderMonthStatsSection()
   }
 }
 
