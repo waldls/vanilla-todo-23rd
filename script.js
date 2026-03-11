@@ -2,6 +2,7 @@ const today = new Date()
 let currentYear = today.getFullYear()
 let currentMonth = today.getMonth()
 let selectedDate = new Date(today)
+let store = loadStoreFromStorage()
 
 const dateToKey = (date) => {
   const y = date.getFullYear()
@@ -17,6 +18,21 @@ const isSameDate = (a, b) =>
   a.getFullYear() === b.getFullYear() &&
   a.getMonth() === b.getMonth() &&
   a.getDate() === b.getDate()
+
+const getTodosByDate = (date) => store[dateToKey(date)] ?? []
+
+function loadStoreFromStorage() {
+  try {
+    const raw = localStorage.getItem('todo-store')
+    return raw ? JSON.parse(raw) : {}
+  } catch {
+    return {}
+  }
+}
+
+const saveStoreToStorage = () => {
+  localStorage.setItem('todo-store', JSON.stringify(store))
+}
 
 const renderCalendarGrid = () => {
   const titleEl = document.getElementById('calendarTitle')
@@ -55,6 +71,7 @@ const createCalendarDayButton = (date, otherMonth) => {
   if (otherMonth) btn.classList.add('other-month')
   if (isSameDate(date, today)) btn.classList.add('today')
   if (isSameDate(date, selectedDate)) btn.classList.add('selected')
+  if (getTodosByDate(date).length > 0) btn.classList.add('has-todos')
 
   btn.addEventListener('click', () => {
     selectedDate = date
@@ -76,7 +93,78 @@ const createCalendarDayButton = (date, otherMonth) => {
 
 const renderTodoListSection = () => {
   const titleEl = document.getElementById('selectedDateTitle')
+  const listEl = document.getElementById('todoList')
   titleEl.textContent = formatDateTitle(selectedDate)
+  listEl.innerHTML = ''
+
+  const todos = getTodosByDate(selectedDate)
+
+  todos.forEach((todo) => {
+    const li = document.createElement('li')
+    li.className = 'todoItem' + (todo.done ? ' done' : '')
+    li.dataset.id = String(todo.id)
+
+    const textEl = document.createElement('p')
+    textEl.className = 'todoText'
+    textEl.textContent = todo.text
+
+    const actions = document.createElement('div')
+    actions.className = 'todoActions'
+
+    const doneBtn = document.createElement('button')
+    doneBtn.className = 'doneBtn'
+    doneBtn.textContent = todo.done ? '취소' : '완료'
+    doneBtn.addEventListener('click', () => toggleTodoDone(todo.id))
+
+    const deleteBtn = document.createElement('button')
+    deleteBtn.className = 'deleteBtn'
+    deleteBtn.textContent = '삭제'
+    deleteBtn.addEventListener('click', () => deleteTodoItem(todo.id))
+
+    actions.appendChild(doneBtn)
+    actions.appendChild(deleteBtn)
+    li.appendChild(textEl)
+    li.appendChild(actions)
+    listEl.appendChild(li)
+  })
+}
+
+const addTodoItem = (text) => {
+  const key = dateToKey(selectedDate)
+  if (!store[key]) store[key] = []
+  store[key].push({ id: Date.now(), text: text.trim(), done: false })
+  saveStoreToStorage()
+  renderTodoListSection()
+  renderCalendarGrid()
+}
+
+const toggleTodoDone = (id) => {
+  const key = dateToKey(selectedDate)
+  const todo = store[key]?.find((t) => t.id === id)
+  if (todo) {
+    todo.done = !todo.done
+    saveStoreToStorage()
+    renderTodoListSection()
+  }
+}
+
+const deleteTodoItem = (id) => {
+  const key = dateToKey(selectedDate)
+  if (!store[key]) return
+  store[key] = store[key].filter((t) => t.id !== id)
+  if (store[key].length === 0) delete store[key]
+  saveStoreToStorage()
+  renderTodoListSection()
+  renderCalendarGrid()
+}
+
+const handleTodoAdd = () => {
+  const input = document.getElementById('todoInput')
+  const text = input.value.trim()
+  if (!text) return
+  addTodoItem(text)
+  input.value = ''
+  input.focus()
 }
 
 const bindUIEvents = () => {
@@ -96,6 +184,12 @@ const bindUIEvents = () => {
       currentYear++
     }
     renderCalendarGrid()
+  })
+
+  document.getElementById('todoAddBtn').addEventListener('click', handleTodoAdd)
+
+  document.getElementById('todoInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.isComposing) handleTodoAdd()
   })
 }
 
