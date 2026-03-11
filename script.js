@@ -49,7 +49,7 @@ const renderTodayStatsSection = () => {
   const percent = total === 0 ? 0 : Math.round((done / total) * 100)
 
   textEl.textContent =
-    total === 0 ? '오늘 할 일이 없어요' : `오늘 ${done} / ${total} 개 완료`
+    total === 0 ? '오늘 할 일이 없어요' : `오늘 ${done} / ${total}개 완료`
   percentEl.textContent = total === 0 ? '' : `${percent}%`
   fillEl.style.width = `${percent}%`
   trackEl.setAttribute('aria-valuenow', percent)
@@ -71,7 +71,7 @@ const renderMonthStatsSection = () => {
 
   const percent = total === 0 ? 0 : Math.round((done / total) * 100)
   statsEl.textContent =
-    total === 0 ? '이번 달 할일이 없어요' : `이번 달 ${done} / ${total} 개 완료`
+    total === 0 ? '이번 달 할 일이 없어요' : `이번 달 ${done} / ${total}개 완료`
   percentEl.textContent = total === 0 ? '' : `${percent}%`
   fillEl.style.width = `${percent}%`
 }
