@@ -436,7 +436,7 @@ body {
   white-space: nowrap;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   body {
     padding: 0;
     align-items: flex-start;
