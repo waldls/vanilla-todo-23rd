@@ -80,10 +80,11 @@ body {
     );
 }
 
+/* ── 앱 컨테이너 ── */
 #app {
   width: 100%;
   max-width: 1100px;
-  min-height: calc(100vh - 120px);
+  height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
@@ -93,6 +94,7 @@ body {
   overflow: hidden;
 }
 
+/* ── 헤더 ── */
 #appHeader {
   border-bottom: 1.5px solid var(--color-border);
   padding: 20px 36px;
@@ -108,12 +110,14 @@ body {
   color: var(--color-text-primary);
 }
 
+/* ── 메인 레이아웃 (Flexbox) ── */
 #appMain {
   display: flex;
   flex: 1;
   overflow: hidden;
 }
 
+/* ── 달력 섹션 ── */
 #calendarSection {
   width: 420px;
   flex-shrink: 0;
@@ -159,6 +163,7 @@ body {
   background: var(--color-border-soft);
 }
 
+/* 요일 헤더 */
 #calendarWeekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -172,6 +177,7 @@ body {
   padding: 6px 0;
 }
 
+/* 날짜 그리드 */
 #calendarDays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -238,6 +244,7 @@ body {
   background: var(--color-green);
 }
 
+/* ── 이번 달 통계 ── */
 #monthStats {
   margin-top: 20px;
   padding: 14px 16px;
@@ -282,6 +289,7 @@ body {
   transition: width 0.4s ease;
 }
 
+/* ── 투두 섹션 ── */
 #todoSection {
   flex: 1;
   display: flex;
@@ -385,7 +393,7 @@ body {
 }
 
 #todoList:empty::after {
-  content: '할일이 없어요.';
+  content: '할일이 없어요!';
   display: block;
   text-align: center;
   color: var(--color-text-muted);
@@ -393,6 +401,7 @@ body {
   padding: 36px 0;
 }
 
+/* ── 입력창 ── */
 #todoInputArea {
   display: flex;
   gap: 8px;
@@ -453,5 +462,10 @@ body {
     width: 100%;
     border-right: none;
     border-bottom: 1.5px solid var(--color-border);
+    padding: 16px;
+  }
+  .day {
+    padding: 6px 2px;
+    font-size: var(--text-sm);
   }
 }
